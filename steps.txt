@@ -1,0 +1,84 @@
+1. >>>>>>>>>>>>>>>>npm install --save-dev hardhat
+2. >>>>>>>>>>>>>>>>npx hardhat 
+	crete a js project
+3. >>>>>>>>>>>>>>>>npm install --save-dev "hardhat@^2.19.2" "@nomicfoundation/hardhat-tata? (Y/n) · yoolbox@^4.0.0"
+4. pase ur code in lock.sol and change its name
+5. Go to scripts/deploy.js   //testing
+	update it
+6. npx hardhat run scripts/deploy.js 
+7. npm install create-react-app
+8. npx install create-react-app client  //client is any name
+9. cd client   //react is in client
+10. npm start
+11. new file in scripts as newDeploy as prev was test
+12. now newDeploy contains only main deployment code we will deploy using this one
+13. in hardhat.config update
+14. create .env file and add sep.. , sep..key, private_key   
+	go to alchemy and take key and url   and peivate key is metamask   to get private key acc details private key
+15. npm install dotenv
+16.Final deployment 
+	npx hardhat run --network sepolia scripts/finalDeploy.js
+17.  we get contract address to check go to sepolia etherscan and paste contract address
+
+
+
+after this connection with react
+--------------------------------------------------
+1. Go to clients ---src App.js and update it i.e remove
+2. Go to artifacts --contracts and copy chai.json file  //this file contains ABI and bytecode
+3. Create contract folder in client/src and pase chai.json
+4. import abi in App.js file
+	import abi from "./contract/chai.json"
+5. Now App.js file copy this same template
+	
+	import abi from "./contract/chai.json"
+	import {useState,useEffect} from 'react';
+	import {ethers} from "ethers";
+	import './App.css';
+
+	function App() {
+  	const [state,setState]=useState({
+    	provider:null,
+    	signer:null,
+    	contract:null
+  	})
+
+  	useEffect(()=>{
+    	const connectWallet=async()=>
+    	{
+      	const contractAddress="0x336B1A9fB4272429d21B797378183317479637f9";
+      	const contractAbi=abi.abi;
+      	try{
+        	const {ethereum}=window;
+        	if(ethereum){
+          	const account = await ethereum.request({method:"eth_requestAccounts",}); //to open metamask
+        	}
+        	const provider=new ethers.providers.Web3Provider(ethereum);
+        	const signer=provider.getSigner();
+        	const contract=new ethers.Contract(contractAddress,contractAbi,signer); //making instance
+        	setState(provider,signer,contract);
+      	}
+      	catch(error)
+      	{
+        	console.log(error);
+      	}    
+  	};
+  	connectWallet();
+  },[]);  //[] is dependencies
+  console.log(state);
+
+
+  return (
+    <div className="App">
+    </div>
+  );
+}
+
+export default App;
+
+
+6. Now create components in clients/src acc to project  
+	ex. in chai components are Buy and Memos so create .js file for both 
+7. Import this components i.e Buy and Memos in App.js    and in App.js use these components in return
+
+
